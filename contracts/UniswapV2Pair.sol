@@ -8,6 +8,7 @@ import './interfaces/IERC20.sol';
 import './interfaces/IUniswapV2Factory.sol';
 import './interfaces/IUniswapV2Callee.sol';
 
+// 币对合约
 contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     using SafeMath  for uint;
     using UQ112x112 for uint224;
@@ -58,13 +59,18 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     );
     event Sync(uint112 reserve0, uint112 reserve1);
 
+    // 构造函数
+    // 看似这个合约是工厂合约创建的
     constructor() public {
         factory = msg.sender;
     }
 
+    // 在部署时由工厂合约调用一次
     // called once by the factory at time of deployment
     function initialize(address _token0, address _token1) external {
+        // 要求只能由工厂合约调用
         require(msg.sender == factory, 'UniswapV2: FORBIDDEN'); // sufficient check
+        // 设置两个币的地址
         token0 = _token0;
         token1 = _token1;
     }
