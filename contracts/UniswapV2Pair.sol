@@ -16,16 +16,24 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     uint public constant MINIMUM_LIQUIDITY = 10**3;
     bytes4 private constant SELECTOR = bytes4(keccak256(bytes('transfer(address,uint256)')));
 
+    // 工厂合约地址
     address public factory;
+    // 币1地址
     address public token0;
+    // 币2地址
     address public token1;
 
+    // 币1存量
     uint112 private reserve0;           // uses single storage slot, accessible via getReserves
+    // 币2存量
     uint112 private reserve1;           // uses single storage slot, accessible via getReserves
     uint32  private blockTimestampLast; // uses single storage slot, accessible via getReserves
 
+    // 币1最终累计价格
     uint public price0CumulativeLast;
+    // 币2最终累计价格
     uint public price1CumulativeLast;
+    // 最终k值
     uint public kLast; // reserve0 * reserve1, as of immediately after the most recent liquidity event
 
     uint private unlocked = 1;
