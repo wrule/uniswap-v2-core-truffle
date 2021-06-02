@@ -33,11 +33,21 @@ contract UniswapV2Factory is IUniswapV2Factory {
         return allPairs.length;
     }
 
-    function createPair(address tokenA, address tokenB) external returns (address pair) {
+    // 创建币对方法
+    function createPair(address tokenA, address tokenB)
+    external returns (address pair) {
+        // 两个币地址不能相同
         require(tokenA != tokenB, 'UniswapV2: IDENTICAL_ADDRESSES');
+
+        // 按币地址的创建顺序排序币地址（小地址在前，大地址在后）
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
+        
+        // token0不能是0地址
         require(token0 != address(0), 'UniswapV2: ZERO_ADDRESS');
+        
+        // 币对不能已经存在
         require(getPair[token0][token1] == address(0), 'UniswapV2: PAIR_EXISTS'); // single check is sufficient
+        
         bytes memory bytecode = type(UniswapV2Pair).creationCode;
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
         assembly {
