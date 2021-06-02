@@ -48,11 +48,17 @@ contract UniswapV2Factory is IUniswapV2Factory {
         // 币对不能已经存在
         require(getPair[token0][token1] == address(0), 'UniswapV2: PAIR_EXISTS'); // single check is sufficient
         
+        // bytecode
         bytes memory bytecode = type(UniswapV2Pair).creationCode;
+
+        // 两个地址执行打包编码之后计算hash
         bytes32 salt = keccak256(abi.encodePacked(token0, token1));
+        
+        // 类似golang语法的汇编处理
         assembly {
             pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
+
         IUniswapV2Pair(pair).initialize(token0, token1);
 
         // 双向映射填充
