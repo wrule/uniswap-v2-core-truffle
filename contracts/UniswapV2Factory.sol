@@ -4,18 +4,31 @@ import './interfaces/IUniswapV2Factory.sol';
 import './UniswapV2Pair.sol';
 
 contract UniswapV2Factory is IUniswapV2Factory {
+    // 费用 feeTo
     address public feeTo;
+    // 费用 feeToSetter
     address public feeToSetter;
 
+    // 存储币对数据库
     mapping(address => mapping(address => address)) public getPair;
+
+    // 生成的币对地址列表
     address[] public allPairs;
 
-    event PairCreated(address indexed token0, address indexed token1, address pair, uint);
+    // 币对创建事件
+    event PairCreated(
+        address indexed token0,
+        address indexed token1,
+        address pair,
+        uint
+    );
 
+    // 构造函数，设置feeToSetter
     constructor(address _feeToSetter) public {
         feeToSetter = _feeToSetter;
     }
 
+    // 获取生成的币对个数
     function allPairsLength() external view returns (uint) {
         return allPairs.length;
     }
@@ -37,11 +50,15 @@ contract UniswapV2Factory is IUniswapV2Factory {
         emit PairCreated(token0, token1, pair, allPairs.length);
     }
 
+    // feeToSetter可访问
+    // 设置 feeTo
     function setFeeTo(address _feeTo) external {
         require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');
         feeTo = _feeTo;
     }
 
+    // feeToSetter可访问
+    // 设置 feeToSetter
     function setFeeToSetter(address _feeToSetter) external {
         require(msg.sender == feeToSetter, 'UniswapV2: FORBIDDEN');
         feeToSetter = _feeToSetter;
