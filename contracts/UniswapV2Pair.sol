@@ -23,9 +23,9 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     // 币2地址
     address public token1;
 
-    // 币1存量
+    // 币对池中币1库存
     uint112 private reserve0;           // uses single storage slot, accessible via getReserves
-    // 币2存量
+    // 币对池中币2库存
     uint112 private reserve1;           // uses single storage slot, accessible via getReserves
     uint32  private blockTimestampLast; // uses single storage slot, accessible via getReserves
 
@@ -44,7 +44,13 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
         unlocked = 1;
     }
 
-    function getReserves() public view returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast) {
+    // 获取库存
+    function getReserves()
+    public view returns (
+        uint112 _reserve0,
+        uint112 _reserve1,
+        uint32 _blockTimestampLast
+    ) {
         _reserve0 = reserve0;
         _reserve1 = reserve1;
         _blockTimestampLast = blockTimestampLast;
