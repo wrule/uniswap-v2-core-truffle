@@ -2,11 +2,13 @@ pragma solidity =0.5.16;
 
 // a library for performing various math operations
 
+// 基本的数学运算
 library Math {
     function min(uint x, uint y) internal pure returns (uint z) {
         z = x < y ? x : y;
     }
 
+    // 巴比伦法开平方根
     // babylonian method (https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method)
     function sqrt(uint y) internal pure returns (uint z) {
         if (y > 3) {
