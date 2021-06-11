@@ -3,6 +3,7 @@ pragma solidity =0.5.16;
 import './interfaces/IUniswapV2ERC20.sol';
 import './libraries/SafeMath.sol';
 
+// 符合uniswap的erc20代币标准实现
 contract UniswapV2ERC20 is IUniswapV2ERC20 {
     using SafeMath for uint;
 
